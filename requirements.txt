@@ -1,0 +1,6 @@
+camelot-py
+matplotlib
+nltk
+numpy
+pandas
+wordcloud

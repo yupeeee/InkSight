@@ -3,12 +3,13 @@ from typing import (
     Optional,
 )
 
+from argparse import Namespace
 import camelot
 import numpy as np
 import pandas as pd
 
 __all__ = [
-    "extract_table_from_pdf",
+    "load_data",
 ]
 
 
@@ -79,3 +80,34 @@ def extract_table_from_pdf(
     table = pd.DataFrame(table[1:], columns=table[0])
 
     return table
+
+
+def load_data(
+    args: Namespace,
+) -> pd.DataFrame:
+    assert args.c == "aaai"
+
+    year = args.y
+
+    data_df = {
+        "id": [],
+        "title": [],
+        "authors": [],
+    }
+
+    if year == 2024:
+        data_dict = extract_table_from_pdf(
+            pdf_path="https://aaai.org/wp-content/uploads/2023/12/Main-Track.pdf",
+            pages="all",
+            flavor="lattice",
+            remove_headers=0,
+        )
+
+        data_df["id"] = [int(id) for id in data_dict["Paper ID"]]
+        data_df["title"] = [str(title) for title in data_dict["Paper Title"]]
+        data_df["authors"] = [str(authors) for authors in data_dict["Author Names"]]
+
+    else:
+        raise
+
+    return data_df
