@@ -35,7 +35,7 @@ def generate_frequency_dict(titles: List[str], ) -> Dict[str, int]:
     for key in tmpDict:
         # noun check
         token = nltk.tokenize.word_tokenize(key)
-        
+
         for i in nltk.pos_tag(token):
             if i[1].startswith("NN"):
                 fullTermsDict.add(key, tmpDict[key])
